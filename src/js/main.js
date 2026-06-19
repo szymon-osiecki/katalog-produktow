@@ -1,7 +1,7 @@
 // Punkt wejścia / kontroler aplikacji.
 import { fetchProducts } from './api.js';
 import { clear } from './dom.js';
-import { renderLoading, renderError } from './views.js';
+import { renderLoading, renderError, renderGrid } from './views.js';
 
 const app = document.querySelector('#app');
 
@@ -24,10 +24,7 @@ async function load() {
 /** Renderuje główną treść aplikacji. */
 function render() {
   clear(app);
-  // Tymczasowe potwierdzenie pobrania danych — właściwa prezentacja w kolejnym kroku.
-  const info = document.createElement('p');
-  info.textContent = `Pobrano ${products.length} produktów.`;
-  app.append(info);
+  app.append(renderGrid(products));
 }
 
 load();

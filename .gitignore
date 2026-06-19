@@ -4,6 +4,9 @@ node_modules/
 # Skompilowane style (generowane z src/scss)
 css/
 
+# Lokalne narzędzia (podgląd Claude Code)
+.claude/
+
 # Logi i pliki systemowe
 *.log
 .DS_Store
