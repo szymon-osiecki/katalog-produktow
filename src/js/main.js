@@ -2,15 +2,25 @@
 import { fetchProducts } from './api.js';
 import { h, clear } from './dom.js';
 import { getCategories, applyFilters } from './filters.js';
-import { renderLoading, renderError, renderGrid, renderFilters } from './views.js';
+import { paginate } from './pagination.js';
+import {
+  renderLoading,
+  renderError,
+  renderGrid,
+  renderFilters,
+  renderPagination,
+  renderResultsCount,
+} from './views.js';
 
 const app = document.querySelector('#app');
+const PAGE_SIZE = 6;
 
 let products = [];
 const state = {
   category: '',
   priceMin: null,
   priceMax: null,
+  page: 1,
 };
 
 /** Pobiera dane i przełącza widok między stanem ładowania, błędu i treści. */
@@ -36,6 +46,7 @@ function render() {
     state,
     onChange: (patch) => {
       Object.assign(state, patch);
+      state.page = 1; // zmiana filtra wraca na pierwszą stronę
       renderResults();
     },
   });
@@ -44,12 +55,27 @@ function render() {
   renderResults();
 }
 
-/** Renderuje wyłącznie obszar wyników (po zmianie filtrów). */
+/** Renderuje obszar wyników: licznik, siatkę bieżącej strony i paginację. */
 function renderResults() {
   const results = app.querySelector('.results');
   clear(results);
+
   const filtered = applyFilters(products, state);
-  results.append(renderGrid(filtered));
+  const { pageItems, totalPages, page } = paginate(filtered, state.page, PAGE_SIZE);
+  state.page = page; // synchronizacja po ewentualnym przycięciu zakresu
+
+  results.append(renderResultsCount(filtered.length), renderGrid(pageItems));
+
+  const pager = renderPagination({
+    page,
+    totalPages,
+    onPage: (next) => {
+      state.page = next;
+      renderResults();
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    },
+  });
+  if (pager) results.append(pager);
 }
 
 load();

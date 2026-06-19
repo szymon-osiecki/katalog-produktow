@@ -1,0 +1,46 @@
+@use 'variables' as *;
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  justify-content: center;
+  margin-top: 2.25rem;
+}
+
+.pagination__btn {
+  font: inherit;
+  min-width: 2.4rem;
+  height: 2.4rem;
+  padding: 0 .6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-fg;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: border-color .15s ease, background-color .15s ease;
+
+  &:hover:not(:disabled):not(.pagination__btn--active) {
+    border-color: $color-border-strong;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-fg;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+  }
+}
+
+.pagination__btn--active {
+  color: $color-inverse;
+  background: $color-fg;
+  border-color: $color-fg;
+  cursor: default;
+}

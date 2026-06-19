@@ -124,3 +124,58 @@ export function renderGrid(products) {
   }
   return grid;
 }
+
+/** Poprawna polska forma rzeczownika „produkt". */
+function pluralProdukt(n) {
+  if (n === 1) return 'produkt';
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 >= 2 && mod10 <= 4 && !(mod100 >= 12 && mod100 <= 14)) return 'produkty';
+  return 'produktów';
+}
+
+/** Licznik znalezionych produktów. */
+export function renderResultsCount(total) {
+  return h('p', { class: 'results-count', role: 'status', 'aria-live': 'polite' },
+    `Znaleziono ${total} ${pluralProdukt(total)}`);
+}
+
+/** Nawigacja paginacji. Zwraca null, gdy jest tylko jedna strona. */
+export function renderPagination({ page, totalPages, onPage }) {
+  if (totalPages <= 1) return null;
+
+  const buttons = [];
+
+  buttons.push(
+    h('button', {
+      class: 'pagination__btn',
+      type: 'button',
+      disabled: page === 1,
+      'aria-label': 'Poprzednia strona',
+      onClick: () => onPage(page - 1),
+    }, '‹')
+  );
+
+  for (let p = 1; p <= totalPages; p += 1) {
+    buttons.push(
+      h('button', {
+        class: p === page ? 'pagination__btn pagination__btn--active' : 'pagination__btn',
+        type: 'button',
+        'aria-current': p === page ? 'page' : false,
+        onClick: () => onPage(p),
+      }, String(p))
+    );
+  }
+
+  buttons.push(
+    h('button', {
+      class: 'pagination__btn',
+      type: 'button',
+      disabled: page === totalPages,
+      'aria-label': 'Następna strona',
+      onClick: () => onPage(page + 1),
+    }, '›')
+  );
+
+  return h('nav', { class: 'pagination', 'aria-label': 'Paginacja' }, buttons);
+}
