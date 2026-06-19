@@ -10,7 +10,7 @@ Style przygotowano w preprocesorze **Sass (SCSS)**. Kolorystyka czarno-biała.
 
 - **Prezentacja danych** — responsywna siatka kart z ID, nazwą, kategorią i ceną.
 - **Filtrowanie** — po kategorii (`<select>` budowany z danych) oraz po cenie (zakres od–do).
-- **Paginacja** — podział wyników na strony (6 produktów na stronę).
+- **Paginacja** — podział wyników na strony (12 produktów na stronę).
 - **Zachowanie stanu w URL** — wybrane filtry i numer strony zapisują się w adresie,
   dzięki czemu stan przeżywa odświeżenie strony oraz skopiowanie i ponowne otwarcie linku.
 - **Szczegóły produktu** — kliknięcie karty otwiera modal z pełnym zestawem danych
