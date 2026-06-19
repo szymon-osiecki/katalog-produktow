@@ -8,6 +8,7 @@ import { openModal } from './modal.js';
 import {
   renderLoading,
   renderError,
+  renderEmpty,
   renderGrid,
   renderFilters,
   renderPagination,
@@ -67,6 +68,15 @@ function renderResults() {
   clear(results);
 
   const filtered = applyFilters(products, state);
+
+  // Brak wyników filtrowania — czytelny komunikat zamiast pustej siatki.
+  if (filtered.length === 0) {
+    state.page = 1;
+    writeState(state);
+    results.append(renderEmpty(resetFilters));
+    return;
+  }
+
   const { pageItems, totalPages, page } = paginate(filtered, state.page, PAGE_SIZE);
   state.page = page; // synchronizacja po ewentualnym przycięciu zakresu
   writeState(state); // utrwalenie stanu w adresie URL
@@ -83,6 +93,12 @@ function renderResults() {
     },
   });
   if (pager) results.append(pager);
+}
+
+/** Czyści wszystkie filtry i wraca na pierwszą stronę. */
+function resetFilters() {
+  Object.assign(state, { category: '', priceMin: null, priceMax: null, page: 1 });
+  render();
 }
 
 // Obsługa przycisków wstecz/dalej przeglądarki — ponowne odczytanie stanu z URL.

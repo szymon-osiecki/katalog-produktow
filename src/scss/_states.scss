@@ -29,6 +29,11 @@
   background: $color-surface-2;
 }
 
+.state--empty {
+  border: 1px dashed $color-border;
+  border-radius: $radius;
+}
+
 .spinner {
   width: 2.25rem;
   height: 2.25rem;

@@ -28,6 +28,16 @@ export function renderError(message, onRetry) {
   ]);
 }
 
+/** Komunikat o braku wyników filtrowania z przyciskiem czyszczenia filtrów. */
+export function renderEmpty(onReset) {
+  return h('div', { class: 'state state--empty', role: 'status' }, [
+    h('p', { class: 'state__title' }, 'Brak produktów'),
+    h('p', { class: 'state__text' },
+      'Żaden produkt nie spełnia wybranych kryteriów. Zmień lub wyczyść filtry.'),
+    h('button', { class: 'btn btn--ghost', type: 'button', onClick: onReset }, 'Wyczyść filtry'),
+  ]);
+}
+
 /** Zamienia tekst z pola liczbowego na liczbę lub null (puste pole). */
 function parsePrice(value) {
   if (value.trim() === '') return null;
