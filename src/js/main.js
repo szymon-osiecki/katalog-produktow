@@ -16,7 +16,7 @@ import {
 } from './views.js';
 
 const app = document.querySelector('#app');
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 12;
 
 let products = [];
 // Stan początkowy odtwarzany z adresu URL.

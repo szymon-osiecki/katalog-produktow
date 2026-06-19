@@ -12,11 +12,21 @@ html {
 
 body {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: $font-base;
   color: $color-fg;
   background: $color-bg;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+// Cienki, czarny akcent na samej górze strony.
+body::before {
+  content: '';
+  height: 4px;
+  background: $color-fg;
 }
 
 a {
@@ -48,11 +58,24 @@ a {
 }
 
 main {
-  padding-bottom: 4rem;
+  flex: 1 0 auto;
+  padding-bottom: 3.5rem;
 }
 
 .results {
   scroll-margin-top: 1rem;
+}
+
+.site-footer {
+  flex-shrink: 0;
+  border-top: 1px solid $color-border;
+  padding: 1.5rem 0;
+  color: $color-muted;
+  font-size: .85rem;
+}
+
+.site-footer p {
+  margin: 0;
 }
 
 @media (max-width: $bp-sm) {

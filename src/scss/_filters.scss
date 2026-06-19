@@ -3,9 +3,13 @@
 .toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1rem 1.5rem;
   align-items: flex-end;
   margin-bottom: 1.5rem;
+  padding: 1.15rem 1.35rem;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius;
 }
 
 .field {

@@ -26,12 +26,13 @@
 .state--error {
   border: 1px solid $color-border;
   border-radius: $radius;
-  background: $color-surface-2;
+  background: $color-surface;
 }
 
 .state--empty {
   border: 1px dashed $color-border;
   border-radius: $radius;
+  background: $color-surface;
 }
 
 .spinner {
