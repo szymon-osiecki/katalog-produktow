@@ -3,6 +3,7 @@ import { fetchProducts } from './api.js';
 import { h, clear } from './dom.js';
 import { getCategories, applyFilters } from './filters.js';
 import { paginate } from './pagination.js';
+import { readState, writeState } from './state.js';
 import {
   renderLoading,
   renderError,
@@ -16,12 +17,15 @@ const app = document.querySelector('#app');
 const PAGE_SIZE = 6;
 
 let products = [];
-const state = {
-  category: '',
-  priceMin: null,
-  priceMax: null,
-  page: 1,
-};
+// Stan początkowy odtwarzany z adresu URL.
+const state = readState();
+
+/** Czyści wybraną kategorię, jeśli nie istnieje w pobranych danych (nieaktualny link). */
+function normalizeCategory() {
+  if (state.category && !getCategories(products).includes(state.category)) {
+    state.category = '';
+  }
+}
 
 /** Pobiera dane i przełącza widok między stanem ładowania, błędu i treści. */
 async function load() {
@@ -30,6 +34,7 @@ async function load() {
 
   try {
     products = await fetchProducts();
+    normalizeCategory();
     render();
   } catch (error) {
     clear(app);
@@ -63,6 +68,7 @@ function renderResults() {
   const filtered = applyFilters(products, state);
   const { pageItems, totalPages, page } = paginate(filtered, state.page, PAGE_SIZE);
   state.page = page; // synchronizacja po ewentualnym przycięciu zakresu
+  writeState(state); // utrwalenie stanu w adresie URL
 
   results.append(renderResultsCount(filtered.length), renderGrid(pageItems));
 
@@ -77,5 +83,14 @@ function renderResults() {
   });
   if (pager) results.append(pager);
 }
+
+// Obsługa przycisków wstecz/dalej przeglądarki — ponowne odczytanie stanu z URL.
+window.addEventListener('popstate', () => {
+  Object.assign(state, readState());
+  if (products.length) {
+    normalizeCategory();
+    render();
+  }
+});
 
 load();
