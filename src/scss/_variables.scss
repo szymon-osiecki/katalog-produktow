@@ -1,0 +1,27 @@
+// Paleta czarno-biała (zgodna z identyfikacją wizualną klienta).
+$color-bg:            #ffffff;
+$color-surface:       #ffffff;
+$color-surface-2:     #f6f6f6;
+$color-fg:            #141414;
+$color-muted:         #6c6c6c;
+$color-border:        #e3e3e3;
+$color-border-strong: #141414;
+$color-inverse:       #ffffff;
+
+// Typografia.
+$font-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+// Promienie.
+$radius:    10px;
+$radius-sm: 6px;
+
+// Punkty kontrolne (breakpointy).
+$bp-sm: 540px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+
+// Maksymalna szerokość kontenera.
+$container: 1100px;
+
+// Subtelny, szary cień.
+$shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 4px 16px rgba(0, 0, 0, .05);

@@ -1,0 +1,52 @@
+@use 'variables' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: $font-base;
+  color: $color-fg;
+  background: $color-bg;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: $container;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.site-header {
+  border-bottom: 1px solid $color-border;
+  padding: 2rem 0 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.site-header__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -.02em;
+}
+
+.site-header__subtitle {
+  margin: .35rem 0 0;
+  color: $color-muted;
+}
+
+main {
+  padding-bottom: 4rem;
+}

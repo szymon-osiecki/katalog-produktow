@@ -1,0 +1,16 @@
+{
+  "name": "katalog-produktow",
+  "version": "1.0.0",
+  "description": "Aplikacja frontendowa wyświetlająca listę produktów pobieranych z API (czysty JavaScript + SCSS).",
+  "type": "module",
+  "scripts": {
+    "build": "sass src/scss/main.scss css/main.css --no-source-map --style=expanded",
+    "watch": "sass --watch src/scss/main.scss css/main.css",
+    "serve": "node server.js",
+    "start": "npm run build && node server.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.101.0"
+  }
+}
