@@ -139,6 +139,20 @@
   to { opacity: 1; transform: none; }
 }
 
+@media (max-width: $bp-sm) {
+  .modal__overlay {
+    padding: .75rem;
+  }
+
+  .modal__content {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .modal__title {
+    font-size: 1.25rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .modal__overlay,
   .modal__dialog {
