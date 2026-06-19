@@ -37,6 +37,21 @@
   }
 }
 
+.price-range {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.price-range__sep {
+  color: $color-muted;
+}
+
+.field__control--price {
+  min-width: 0;
+  width: 6.5rem;
+}
+
 select.field__control {
   appearance: none;
   cursor: pointer;

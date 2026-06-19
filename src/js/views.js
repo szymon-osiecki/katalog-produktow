@@ -28,27 +28,71 @@ export function renderError(message, onRetry) {
   ]);
 }
 
-/** Pasek narzędzi z filtrami (na razie: kategoria). */
-export function renderFilters({ categories, selected, onCategoryChange }) {
+/** Zamienia tekst z pola liczbowego na liczbę lub null (puste pole). */
+function parsePrice(value) {
+  if (value.trim() === '') return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+/**
+ * Pasek narzędzi z filtrami: kategoria (select) oraz zakres ceny (od–do).
+ * @param {{categories: string[], state: object, onChange: (patch: object) => void}} params
+ */
+export function renderFilters({ categories, state, onChange }) {
   const options = [h('option', { value: '' }, 'Wszystkie kategorie')];
   for (const category of categories) {
-    options.push(h('option', { value: category, selected: category === selected }, category));
+    options.push(h('option', { value: category, selected: category === state.category }, category));
   }
 
-  const select = h(
+  const categorySelect = h(
     'select',
     {
       class: 'field__control',
       id: 'filter-category',
-      onChange: (event) => onCategoryChange(event.target.value),
+      onChange: (event) => onChange({ category: event.target.value }),
     },
     options
   );
 
+  const priceMin = h('input', {
+    type: 'number',
+    min: '0',
+    step: '1',
+    inputmode: 'numeric',
+    class: 'field__control field__control--price',
+    id: 'filter-price-min',
+    placeholder: 'od',
+    'aria-label': 'Cena od',
+    value: state.priceMin ?? '',
+    onInput: (event) => onChange({ priceMin: parsePrice(event.target.value) }),
+  });
+
+  const priceMax = h('input', {
+    type: 'number',
+    min: '0',
+    step: '1',
+    inputmode: 'numeric',
+    class: 'field__control field__control--price',
+    id: 'filter-price-max',
+    placeholder: 'do',
+    'aria-label': 'Cena do',
+    value: state.priceMax ?? '',
+    onInput: (event) => onChange({ priceMax: parsePrice(event.target.value) }),
+  });
+
   return h('div', { class: 'toolbar' }, [
     h('div', { class: 'field' }, [
       h('label', { class: 'field__label', for: 'filter-category' }, 'Kategoria'),
-      select,
+      categorySelect,
+    ]),
+    h('div', { class: 'field' }, [
+      h('span', { class: 'field__label' }, 'Cena (zł)'),
+      h('div', { class: 'price-range' }, [
+        priceMin,
+        h('span', { class: 'price-range__sep', 'aria-hidden': 'true' }, '–'),
+        priceMax,
+      ]),
     ]),
   ]);
 }

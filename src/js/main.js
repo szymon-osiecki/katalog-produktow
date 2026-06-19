@@ -9,6 +9,8 @@ const app = document.querySelector('#app');
 let products = [];
 const state = {
   category: '',
+  priceMin: null,
+  priceMax: null,
 };
 
 /** Pobiera dane i przełącza widok między stanem ładowania, błędu i treści. */
@@ -31,9 +33,9 @@ function render() {
 
   const toolbar = renderFilters({
     categories: getCategories(products),
-    selected: state.category,
-    onCategoryChange: (value) => {
-      state.category = value;
+    state,
+    onChange: (patch) => {
+      Object.assign(state, patch);
       renderResults();
     },
   });
