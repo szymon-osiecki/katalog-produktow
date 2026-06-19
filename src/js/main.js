@@ -1,11 +1,15 @@
 // Punkt wejścia / kontroler aplikacji.
 import { fetchProducts } from './api.js';
-import { clear } from './dom.js';
-import { renderLoading, renderError, renderGrid } from './views.js';
+import { h, clear } from './dom.js';
+import { getCategories, applyFilters } from './filters.js';
+import { renderLoading, renderError, renderGrid, renderFilters } from './views.js';
 
 const app = document.querySelector('#app');
 
 let products = [];
+const state = {
+  category: '',
+};
 
 /** Pobiera dane i przełącza widok między stanem ładowania, błędu i treści. */
 async function load() {
@@ -21,10 +25,29 @@ async function load() {
   }
 }
 
-/** Renderuje główną treść aplikacji. */
+/** Renderuje szkielet aplikacji (filtry + obszar wyników). */
 function render() {
   clear(app);
-  app.append(renderGrid(products));
+
+  const toolbar = renderFilters({
+    categories: getCategories(products),
+    selected: state.category,
+    onCategoryChange: (value) => {
+      state.category = value;
+      renderResults();
+    },
+  });
+
+  app.append(toolbar, h('div', { class: 'results' }));
+  renderResults();
+}
+
+/** Renderuje wyłącznie obszar wyników (po zmianie filtrów). */
+function renderResults() {
+  const results = app.querySelector('.results');
+  clear(results);
+  const filtered = applyFilters(products, state);
+  results.append(renderGrid(filtered));
 }
 
 load();

@@ -28,6 +28,31 @@ export function renderError(message, onRetry) {
   ]);
 }
 
+/** Pasek narzędzi z filtrami (na razie: kategoria). */
+export function renderFilters({ categories, selected, onCategoryChange }) {
+  const options = [h('option', { value: '' }, 'Wszystkie kategorie')];
+  for (const category of categories) {
+    options.push(h('option', { value: category, selected: category === selected }, category));
+  }
+
+  const select = h(
+    'select',
+    {
+      class: 'field__control',
+      id: 'filter-category',
+      onChange: (event) => onCategoryChange(event.target.value),
+    },
+    options
+  );
+
+  return h('div', { class: 'toolbar' }, [
+    h('div', { class: 'field' }, [
+      h('label', { class: 'field__label', for: 'filter-category' }, 'Kategoria'),
+      select,
+    ]),
+  ]);
+}
+
 /** Pojedyncza karta produktu (ID, nazwa, kategoria, cena, dostępność). */
 export function renderProductCard(product) {
   return h('article', { class: 'card', dataset: { id: product.id } }, [
