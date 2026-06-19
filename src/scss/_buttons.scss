@@ -1,0 +1,42 @@
+@use 'variables' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1;
+  padding: .6rem 1.1rem;
+  color: $color-inverse;
+  background: $color-fg;
+  border: 1px solid $color-fg;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: opacity .15s ease, background-color .15s ease;
+
+  &:hover {
+    opacity: .85;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-fg;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+  }
+}
+
+.btn--ghost {
+  color: $color-fg;
+  background: transparent;
+
+  &:hover {
+    opacity: 1;
+    background: $color-surface-2;
+  }
+}

@@ -1,0 +1,51 @@
+@use 'variables' as *;
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  text-align: center;
+  padding: 4rem 1rem;
+  color: $color-muted;
+}
+
+.state__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: $color-fg;
+}
+
+.state__text {
+  margin: 0;
+  max-width: 32rem;
+}
+
+.state--error {
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  background: $color-surface-2;
+}
+
+.spinner {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 3px solid $color-border;
+  border-top-color: $color-fg;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2.4s;
+  }
+}
