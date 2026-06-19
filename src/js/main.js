@@ -4,6 +4,7 @@ import { h, clear } from './dom.js';
 import { getCategories, applyFilters } from './filters.js';
 import { paginate } from './pagination.js';
 import { readState, writeState } from './state.js';
+import { openModal } from './modal.js';
 import {
   renderLoading,
   renderError,
@@ -70,7 +71,7 @@ function renderResults() {
   state.page = page; // synchronizacja po ewentualnym przycięciu zakresu
   writeState(state); // utrwalenie stanu w adresie URL
 
-  results.append(renderResultsCount(filtered.length), renderGrid(pageItems));
+  results.append(renderResultsCount(filtered.length), renderGrid(pageItems, openModal));
 
   const pager = renderPagination({
     page,

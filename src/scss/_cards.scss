@@ -24,6 +24,21 @@
   transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
 }
 
+.card--clickable {
+  cursor: pointer;
+
+  &:hover {
+    border-color: $color-border-strong;
+    box-shadow: $shadow;
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-fg;
+    outline-offset: 2px;
+  }
+}
+
 .card__top {
   display: flex;
   align-items: center;

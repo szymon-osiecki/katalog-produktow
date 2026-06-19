@@ -97,32 +97,80 @@ export function renderFilters({ categories, state, onChange }) {
   ]);
 }
 
-/** Pojedyncza karta produktu (ID, nazwa, kategoria, cena, dostępność). */
-export function renderProductCard(product) {
-  return h('article', { class: 'card', dataset: { id: product.id } }, [
-    h('div', { class: 'card__top' }, [
-      h('span', { class: 'card__category' }, product.category),
-      h('span', { class: 'card__id' }, `#${product.id}`),
-    ]),
-    h('h2', { class: 'card__name' }, product.name),
-    h('div', { class: 'card__footer' }, [
-      h('span', { class: 'card__price' }, formatPrice(product.price)),
-      h(
-        'span',
-        { class: product.stock ? 'card__stock' : 'card__stock card__stock--out' },
-        product.stock ? 'Dostępny' : 'Niedostępny'
-      ),
-    ]),
-  ]);
+/** Etykieta dostępności produktu (badge). */
+function renderStockBadge(stock) {
+  return h(
+    'span',
+    { class: stock ? 'card__stock' : 'card__stock card__stock--out' },
+    stock ? 'Dostępny' : 'Niedostępny'
+  );
+}
+
+/** Pojedyncza, klikalna karta produktu (ID, nazwa, kategoria, cena, dostępność). */
+export function renderProductCard(product, onOpen) {
+  return h(
+    'article',
+    {
+      class: 'card card--clickable',
+      dataset: { id: product.id },
+      role: 'button',
+      tabindex: '0',
+      'aria-label': `${product.name} — zobacz szczegóły`,
+      onClick: () => onOpen(product),
+      onKeydown: (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onOpen(product);
+        }
+      },
+    },
+    [
+      h('div', { class: 'card__top' }, [
+        h('span', { class: 'card__category' }, product.category),
+        h('span', { class: 'card__id' }, `#${product.id}`),
+      ]),
+      h('h2', { class: 'card__name' }, product.name),
+      h('div', { class: 'card__footer' }, [
+        h('span', { class: 'card__price' }, formatPrice(product.price)),
+        renderStockBadge(product.stock),
+      ]),
+    ]
+  );
 }
 
 /** Siatka kart produktów. */
-export function renderGrid(products) {
+export function renderGrid(products, onOpen) {
   const grid = h('div', { class: 'grid' });
   for (const product of products) {
-    grid.append(renderProductCard(product));
+    grid.append(renderProductCard(product, onOpen));
   }
   return grid;
+}
+
+/** Szczegóły produktu w modalu — wszystkie dane zwracane przez API. */
+export function renderProductDetails(product) {
+  const children = [
+    h('p', { class: 'modal__category' }, product.category),
+    h('h2', { class: 'modal__title', id: 'modal-title' }, product.name),
+    h('div', { class: 'modal__meta' }, [
+      h('span', { class: 'modal__price' }, formatPrice(product.price)),
+      renderStockBadge(product.stock),
+    ]),
+    h('p', { class: 'modal__description' }, product.description),
+  ];
+
+  if (Array.isArray(product.tags) && product.tags.length) {
+    children.push(
+      h('div', { class: 'modal__section' }, [
+        h('h3', { class: 'modal__label' }, 'Tagi'),
+        h('div', { class: 'tags' }, product.tags.map((tag) => h('span', { class: 'tag' }, tag))),
+      ])
+    );
+  }
+
+  children.push(h('p', { class: 'modal__id' }, `ID produktu: #${product.id}`));
+
+  return h('div', { class: 'modal__content' }, children);
 }
 
 /** Poprawna polska forma rzeczownika „produkt". */
